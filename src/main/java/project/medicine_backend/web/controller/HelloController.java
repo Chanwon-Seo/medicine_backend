@@ -10,5 +10,4 @@ public class HelloController {
     public String hello() {
         return "안녕하세요";
     }
-
 }
