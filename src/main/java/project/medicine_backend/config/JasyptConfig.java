@@ -35,6 +35,7 @@ public class JasyptConfig {
         encryptor.setPassword(getJasyptEncryptorPassword());
         encryptor.setStringOutputType(stringOutputType);
         encryptor.setKeyObtentionIterations(keyObtentionIterations);
+
         return encryptor;
     }
 
