@@ -5,8 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<p>main Page</p>
-<p><a href="/ocr">OCR로 이동</a></p>
-<p><a href="/camera/add">약통 등록하기</a></p>
+<p>ocr로 받은 문자열입니다.</p>
+<p th:text="*{ocrSaveForm.getText()}"></p>
 </body>
 </html>
