@@ -9,8 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String hello() {
+    public String index() {
+        log.info("mainPage");
+        return "main";
+    }
+
+    @GetMapping("/main")
+    public String main() {
         log.info("mainPage");
         return "index";
     }
+
+
 }

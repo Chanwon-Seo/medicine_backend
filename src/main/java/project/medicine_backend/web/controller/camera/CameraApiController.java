@@ -1,67 +1,82 @@
 package project.medicine_backend.web.controller.camera;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import project.medicine_backend.domain.ImageVO;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.medicine_backend.config.auth.PrincipalDetails;
+import project.medicine_backend.domain.service.CameraService;
+import project.medicine_backend.domain.service.MedicineService;
+import project.medicine_backend.web.controller.camera.form.MedicineSaveForm;
 
 import java.io.IOException;
-
 
 @Slf4j
 @Controller
 @RequestMapping("/camera")
+@RequiredArgsConstructor
 public class CameraApiController {
+    private final CameraService cameraService;
 
-    private String keyString;
+    private final MedicineService medicineService;
+
+    ImageSaveMemory imageSaveMemory = new ImageSaveMemory();
 
     @GetMapping("/add")
     public String videoGET() {
         log.info("이미지 스트리밍 중입니다.");
-        return "video/streamMain";
-    }
-
-    //    @GetMapping("/img/upload")
-    public String testimg() {
-        return "video/upload-form";
+        return "camera/cameraStreamMain";
     }
 
     @PostMapping("/img/upload")
-    public void handleFileUploadV2(@RequestParam("check_img") MultipartFile files) throws IOException {
-        log.info("이미지를 저장해야합니다.");
-        ImageVO imageVO = new ImageVO();
-        imageVO.setMimetype(files.getContentType());
-        imageVO.setOriginal_name(files.getOriginalFilename());
-        imageVO.setData(files.getBytes());
+    public String handleFileUploadV2(@RequestPart("check_img") MultipartFile files, RedirectAttributes redirectAttributes) throws IOException {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", imageVO.getMimetype());
-        headers.add("Content-Length", String.valueOf(imageVO.getData().length));
+        long imgId = cameraService.join(files);
 
-        String keyString = Base64Utils.encodeToString(files.getBytes()); //base64로 인코딩한 값
+        String findImg = cameraService.findImage(imgId);
+        imageSaveMemory.image_key = imgId;
+        imageSaveMemory.imagePath = findImg;
 
-//        Member member = new Member();
-//        member.setKeyString(keyString);
+        redirectAttributes.addAttribute("imgId", imgId);
 
-        log.info("keyString@@@@@ ={}", keyString);
+        return "redirect:/camera/img/check";
     }
 
-    @GetMapping("/testtest/img")
-    public String tesetestset(Model model) {
+    @GetMapping("/img/check")
+    public String checkImg(Model model) {
 
-        log.info("testest keyString={}", keyString);
-        log.info("tesetestset일로 왔음");
+        model.addAttribute("imgPath", imageSaveMemory.imagePath);
 
-        model.addAttribute("fileContent", keyString);
-        return "video/ROI";
+        return "camera/ROI";
+    }
+
+    @GetMapping("/img/add")
+    public String imgAdd(@ModelAttribute MedicineSaveForm medicineSaveForm, Model model) {
+
+        model.addAttribute("medicineSaveForm", medicineSaveForm);
+        model.addAttribute("imgPath", imageSaveMemory.imagePath);
+
+        return "camera/medicineForm";
+    }
+
+    @PostMapping("/img/add")
+    public String imgSave(@ModelAttribute MedicineSaveForm medicineSaveForm, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        medicineService.join(medicineSaveForm, principalDetails.getUsername());
+
+        return "redirect:/main";
+    }
+
+}
+
+class ImageSaveMemory {
+    public long image_key;
+    public String imagePath;
+
+    public ImageSaveMemory() {
     }
 }

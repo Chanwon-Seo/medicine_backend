@@ -1,10 +1,11 @@
-package project.medicine_backend.domain;
+package project.medicine_backend.web.controller.camera.form;
 
 import lombok.Data;
 
 @Data
-public class ImageVO {
+public class ImageSaveForm {
 
+    private Long id;
     private String mimetype;
     private String original_name;
     private byte[] data;

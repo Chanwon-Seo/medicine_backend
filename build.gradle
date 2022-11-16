@@ -24,6 +24,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	//mariadb h2 START
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation("org.mariadb.jdbc:mariadb-java-client:2.1.2")
+
+    runtimeOnly 'com.h2database:h2'
+    //mariadb h2 END
+
+	// security START
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// security END
+
+
 	//jasypt START
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 	//jasypt END
@@ -32,6 +44,7 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
