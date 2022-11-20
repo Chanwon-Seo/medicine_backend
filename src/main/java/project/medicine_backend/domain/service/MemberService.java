@@ -1,6 +1,5 @@
 package project.medicine_backend.domain.service;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +9,6 @@ import project.medicine_backend.domain.repository.MemberRepository;
 import project.medicine_backend.web.controller.member.form.MemberForm;
 
 import java.util.Optional;
-
 
 @Service
 @Transactional(readOnly = true)

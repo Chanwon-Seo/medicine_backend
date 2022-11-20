@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div>
+    <div th:replace="fragments/bodyMainHeader :: bodyMainHeader"/>
+    <p>복용하는 모습을 보여주세요</p>
+    <img src="http://192.168.0.85:8000/orb" alt="실시간 스트리밍 중">
+    <button class="btn btn-primary" onClick="location.href='/orb/img/check'">등록하기</button>
+</div>
+</body>
+</html>

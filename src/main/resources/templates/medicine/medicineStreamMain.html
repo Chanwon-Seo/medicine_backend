@@ -1,31 +1,50 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Cam Video</title>
+</head>
 <body>
-<div>
-    <div>
-        <div th:replace="fragments/bodyMainHeader :: bodyMainHeader"/>
-    </div>
-    <video id="videoInput"></video>
-    <script>
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+<div class="booth">
+    <video id="video" width="800" height="600"></video>
+    <canvas id="canvas" width="800" height="600"></canvas>
+</div>
+<script>
+    (function () {
 
-        //var constraints = { video: { facingMode: { exact: "environment" }, width: { exact: 395 }, height: { exact: 395 } }, audio: false };
-        var constraints = {audio: false, video: true};
+        var canvas = document.getElementById('canvas'),
+            context = canvas.getContext('2d'),
+            video = document.getElementById('video'),
+            vendorUrl = window.URL || window.webkitURL;
 
-        var video = document.getElementById("videoInput");
+        navigator.getMedia = navigator.getUserMedia;
 
-        function successCallback(stream) {
+        navigator.getMedia({
+            video: true,
+            audio: false
+        }, function (stream) {
             video.srcObject = stream;
             video.play();
-        }
+        }, function (error) {
+            // an error occurred
+        });
 
-        function errorCallback(error) {
-            console.log(error);
-        }
+        // video.addEventListener('play', function () {
+        //     draw(this, context, 1024, 768);
+        // }, false);
+        //
+        // function draw(video, context, width, height) {
+        //     var image;
+        //
+        //     context.drawImage(video, 0, 0, width, height);
+        //
+        //     image = context.getImageData(0, 0, width, height);
+        //     context.putImageData(image, 0, 0);
+        //
+        //     setTimeout(draw, 10, video, context, width, height);
+        // }
+    })();
+</script>
 
-        navigator.getUserMedia(constraints, successCallback, errorCallback);
-    </script>
-</div>
+
 </body>
 </html>

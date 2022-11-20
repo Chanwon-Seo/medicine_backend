@@ -16,7 +16,7 @@
 <div class="container">
     <div th:replace="fragments/bodyMainHeader :: bodyMainHeader"/>
     <img th:src="${imgPath}" alt="없음" width="300px" height="400px">
-    <form role="form" action="/camera/img/add" th:object="${medicineSaveForm}" method="post">
+    <form role="form" action="/yolo/img/add" th:object="${medicineSaveForm}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="filed-error" th:each="err : ${#fields.globalErrors()}"
                th:text="${err}">전체 오류 메세지</p>

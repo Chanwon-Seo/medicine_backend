@@ -1,4 +1,4 @@
-package project.medicine_backend.web.controller.camera.form;
+package project.medicine_backend.web.controller.yolo.form;
 
 import lombok.Data;
 

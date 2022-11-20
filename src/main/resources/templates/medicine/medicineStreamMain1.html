@@ -1,12 +1,67 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header"/>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Cam Video</title>
+</head>
 <body>
-<div>
-    <div>
-        <div th:replace="fragments/bodyMainHeader :: bodyMainHeader"/>
-    </div>
-    <img src="http://localhost:8080/medicine/stream" alt="asef">
+<div class="booth">
+    <video id="video" width="800" height="600" autoplay="" hidden></video>
+    <canvas id="canvas" width="800" height="600"></canvas>
 </div>
+<script>
+    (function () {
+
+        var canvas = document.getElementById('canvas'),
+            context = canvas.getContext('2d'),
+            video = document.getElementById('video'),
+            vendorUrl = window.URL || window.webkitURL;
+
+        navigator.getMedia = navigator.getUserMedia;
+
+        navigator.getMedia({
+            video: true,
+            audio: false
+        }, function (stream) {
+            video.srcObject = stream;
+
+            console.log(typeof (video.srcObject));
+            console.log(video.srcObject);
+            video.play();
+        }, function (error) {
+            // an error occurred
+        });
+
+        video.addEventListener('play', function () {
+            draw(this, context, 1024, 768);
+        }, false);
+
+        function draw(video, context, width, height) {
+            var image, bytes, blob;
+
+            context.drawImage(video, 0, 0, width, height);
+
+            image = context.getImageData(0, 0, width, height);
+            image.data;
+
+            const request = new XMLHttpRequest();
+
+            request.onreadystatechange = function (event) {
+                if (request.readyState == 4 && request.status == 200) {
+                    console.log(request.responseText);
+                }
+            }
+
+            // request.open('POST', 'http://localhost:8080/medicine/getVideo', true);
+            // request.send('byteData=넘어갔쥬?');
+            // request.send('img_data=' + image.data);
+
+            context.putImageData(image, 0, 0);
+
+            setTimeout(draw, 10, video, context, width, height);
+        }
+    })();
+</script>
+
+
 </body>
 </html>
