@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import project.medicine_backend.config.auth.PrincipalDetails;
 import project.medicine_backend.domain.service.OrbService;
 
@@ -69,6 +66,18 @@ public class ORBApiController {
         log.info("response entity OK");
 
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/recognitionJet")
+    public void takingMedicineJet(@RequestParam String result) {
+        log.info("asdfasdfasdf = {}", result);
+
+    }
+
+    @GetMapping("/recognitionClient")
+    public String takingMedicine() {
+        return "orb/orbTakingMedicine";
     }
 
 
