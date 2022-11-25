@@ -1,8 +1,8 @@
 package project.medicine_backend.domain.entity;
 
+import com.example.test.web.controller.yolo.form.MedicineSaveForm;
 import lombok.Getter;
 import lombok.Setter;
-import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +26,10 @@ public class Medicine {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "medicineImage_id")
     private MedicineImage medicineImage;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private LocalDateTime registration_time;
 

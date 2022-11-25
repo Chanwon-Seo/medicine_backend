@@ -2,6 +2,9 @@ package project.medicine_backend.web.controller.yolo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.medicine_backend.config.auth.PrincipalDetails;
+import project.medicine_backend.domain.repository.ImageSaveRepository;
 import project.medicine_backend.domain.service.MedicineService;
 import project.medicine_backend.domain.service.YoloService;
 import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
@@ -24,6 +28,8 @@ public class YoloApiController {
 
     private final MedicineService medicineService;
 
+    private final ImageSaveRepository imageSaveRepository;
+
     ImageSaveMemory imageSaveMemory = new ImageSaveMemory();
 
     @GetMapping("/add")
@@ -33,22 +39,26 @@ public class YoloApiController {
     }
 
     @PostMapping("/img/upload")
-    public String handleFileUploadV2(@RequestPart("check_img") MultipartFile files, RedirectAttributes redirectAttributes) throws IOException {
-        long imgId = yoloService.join(files);
+    public ResponseEntity<Resource> handleFileUpload(@RequestPart("check_img") MultipartFile files, RedirectAttributes redirectAttributes) throws IOException {
+        Long imgId = yoloService.join(files);
 
-        String findImg = yoloService.findImage(imgId);
+        Long findImg = yoloService.findImage(imgId);
         imageSaveMemory.image_key = imgId;
         imageSaveMemory.imagePath = findImg;
 
         redirectAttributes.addAttribute("imgId", imgId);
 
-        return "redirect:/yolo/img/check";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/img/check")
     public String checkImg(Model model) {
 
-        model.addAttribute("imgPath", imageSaveMemory.imagePath);
+        Long findImageId = imageSaveRepository.findById(imageSaveMemory.image_key);
+
+        String findImagePath = yoloService.findImagePath(findImageId);
+
+        model.addAttribute("imgPath", findImagePath);
 
         return "yolo/ROI";
     }
@@ -56,8 +66,12 @@ public class YoloApiController {
     @GetMapping("/img/add")
     public String imgAdd(@ModelAttribute MedicineSaveForm medicineSaveForm, Model model) {
 
+        Long findImageId = imageSaveRepository.findById(imageSaveMemory.image_key);
+
+        String findImagePath = yoloService.findImagePath(findImageId);
+
         model.addAttribute("medicineSaveForm", medicineSaveForm);
-        model.addAttribute("imgPath", imageSaveMemory.imagePath);
+        model.addAttribute("imgPath", findImagePath);
 
         return "yolo/medicineForm";
     }
@@ -72,8 +86,8 @@ public class YoloApiController {
 }
 
 class ImageSaveMemory {
-    public long image_key;
-    public String imagePath;
+    public Long image_key;
+    public Long imagePath;
 
     public ImageSaveMemory() {
     }

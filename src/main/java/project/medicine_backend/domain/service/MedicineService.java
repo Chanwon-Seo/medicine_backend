@@ -17,6 +17,7 @@ import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 public class MedicineService {
 
     private final MedicineRepository medicineRepository;
+
     private final YoloRepository yoloRepository;
 
     private final MemberRepository memberRepository;

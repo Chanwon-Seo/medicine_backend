@@ -1,10 +1,10 @@
 package project.medicine_backend.domain.entity;
 
+import com.example.test.web.controller.member.form.MemberForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import project.medicine_backend.web.controller.member.form.MemberForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,6 +29,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<MedicineImage> medicineImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Medicine> medicines = new ArrayList<>();
 
 
     public Member(MemberForm form) {

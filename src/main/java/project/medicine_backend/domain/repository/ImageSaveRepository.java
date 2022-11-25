@@ -12,24 +12,24 @@ import java.util.Map;
 @Repository
 public class ImageSaveRepository {
 
-    private static Map<Long, String> store = new HashMap<>(); //static 사용
+    private static Map<Long, Long> store = new HashMap<>(); //static 사용
 
     private static long sequence = 0L; //static 사용
 
-    public long save(String imgName) {
+    public static Long save(Long imgName) {
         store.put(++sequence, imgName);
         return sequence;
     }
 
-    public String findById(Long id) {
+    public Long findById(Long id) {
         return store.get(id);
     }
 
-    public String findId(long paramId) {
+    public static Long findId(Long paramId) {
         return store.get(paramId);
     }
 
-    public List<String> findAll() {
+    public List<Long> findAll() {
         return new ArrayList<>(store.values());
     }
 

@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.medicine_backend.domain.entity.MedicineImage;
-import project.medicine_backend.domain.entity.Member;
 import project.medicine_backend.domain.repository.ImageSaveRepository;
-import project.medicine_backend.domain.repository.MemberRepository;
 import project.medicine_backend.domain.repository.YoloRepository;
 
 import java.io.File;
@@ -21,17 +19,14 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class YoloService {
 
-    private final ImageSaveRepository imageSaveRepository;
     private final YoloRepository yoloRepository;
-    private final MemberRepository memberRepository;
 
     @Transactional
-    public long join(MultipartFile file) throws IOException {
+    public Long join(MultipartFile file) throws IOException {
 
         String oriImgName = file.getOriginalFilename();
         String imgName = "";
 
-//        String projectPath = "C:/Users/scwon/Desktop/spring_img/";
         String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/image/";
         UUID uuid = UUID.randomUUID();
 
@@ -39,27 +34,29 @@ public class YoloService {
 
         File saveFile = new File(projectPath, imgName);
 
+        //이미지 저장
         file.transferTo(saveFile);
-
-        Member findMember = memberRepository.findChkByUserId("admin");
 
         MedicineImage medicineImage = new MedicineImage();
         medicineImage.setMedicineImagePath(imgName);
-        medicineImage.setMember(findMember);
 
-        yoloRepository.save(medicineImage);
+        MedicineImage saveMedicineImage = yoloRepository.save(medicineImage);
 
-        long saveImageMapId = imageSaveRepository.save(imgName);
-
-        log.info("saveImageMapId.getId={}", saveImageMapId);
+        Long saveImageMapId = ImageSaveRepository.save(saveMedicineImage.getId());
 
         return saveImageMapId;
     }
 
-    public String findImage(long imgId) {
-        return imageSaveRepository.findId(imgId);
+    public Long findImage(Long imgId) {
+        return ImageSaveRepository.findId(imgId);
     }
-/*
+
+    public String findImagePath(Long imgId) {
+        MedicineImage medicineImage = yoloRepository.findById(imgId).orElse(null);
+        return medicineImage.getMedicineImagePath();
+    }
+
+    /*
     public String join(MultipartFile files) throws IOException {
 
         ImageSaveForm form = new ImageSaveForm();
