@@ -56,36 +56,5 @@ public class YoloService {
         return medicineImage.getMedicineImagePath();
     }
 
-    /*
-    public String join(MultipartFile files) throws IOException {
-
-        ImageSaveForm form = new ImageSaveForm();
-        form.setMimetype(files.getContentType());
-        form.setOriginal_name(files.getOriginalFilename());
-        form.setData(files.getBytes());
-
-        String mapNum = String.valueOf(cameraRepository.save(form));
-
-        return mapNum;
-    }
-
- */
-//
-//    public String join(MultipartFile files) throws IOException {
-//
-//        ImageSaveForm form = new ImageSaveForm();
-//        form.setMimetype(files.getContentType());
-//        form.setOriginal_name(files.getOriginalFilename());
-//        form.setData(files.getBytes());
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", form.getMimetype());
-//        headers.add("Content-Length", String.valueOf(form.getData().length));
-//
-//        cameraRepository.save(form);
-//
-//        return Base64Utils.encodeToString(files.getBytes()); //base64로 인코딩한 값
-//    }
-
 
 }

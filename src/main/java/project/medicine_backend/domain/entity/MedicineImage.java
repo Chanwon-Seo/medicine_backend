@@ -17,10 +17,6 @@ public class MedicineImage {
 
     private String medicineImagePath;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @OneToOne(mappedBy = "medicineImage")
     private Medicine medicine;
 

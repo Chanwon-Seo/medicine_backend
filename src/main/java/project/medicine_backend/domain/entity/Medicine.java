@@ -1,8 +1,8 @@
 package project.medicine_backend.domain.entity;
 
-import com.example.test.web.controller.yolo.form.MedicineSaveForm;
 import lombok.Getter;
 import lombok.Setter;
+import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,12 +37,13 @@ public class Medicine {
 
     }
 
-    public Medicine(MedicineSaveForm form, MedicineImage medicineImage) {
+    public Medicine(MedicineSaveForm form, MedicineImage medicineImage, Member findMember) {
         this.medicineName = form.getMedicineName();
         this.medicineDetail = form.getMedicineDetail();
         this.medicineCount = form.getMedicineCount();
         this.registration_time = LocalDateTime.now();
         this.medicineImage = medicineImage;
+        this.member = findMember;
     }
 
 }

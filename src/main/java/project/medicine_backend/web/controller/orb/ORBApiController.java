@@ -11,12 +11,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.medicine_backend.config.auth.PrincipalDetails;
+import project.medicine_backend.domain.entity.Medicine;
 import project.medicine_backend.domain.service.OrbService;
+import project.medicine_backend.web.controller.orb.form.ImageResponseForm;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -37,37 +39,43 @@ public class ORBApiController {
         return "orb/orbStreamMain";
     }
 
-
     @PostMapping("/img")
     @ResponseBody
-    public ResponseEntity<Resource> imgPUT() throws IOException {
+    public ImageResponseForm imgPUT() throws IOException {
 
         String sessionUsername = userSaveMemory.username;
         log.info("sessionUsername = {}", sessionUsername);
 
-        String finalImagePath = orbService.findMedicineImage(sessionUsername);
-        log.info("finalImagePath = {}", finalImagePath);
+        List<Medicine> findAllMedicine = orbService.findMedicineImageV2(sessionUsername);
 
-        FileSystemResource resource = new FileSystemResource(finalImagePath);
+        ImageResponseForm imageResponseForm = new ImageResponseForm(findAllMedicine);
+
+        return imageResponseForm;
+    }
+
+    @PostMapping("/api/download/{imageName}")
+    @ResponseBody
+    public ResponseEntity<Resource> imageDownload(@PathVariable String imageName) throws IOException {
+
+        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/image/";
+        FileSystemResource resource = new FileSystemResource(projectPath + imageName);
         log.info("resource@@@@ = {}", resource);
 
         if (!resource.exists()) {
             log.info("에러에러에러 file404");
             throw new IOException();
         }
+
         HttpHeaders header = new HttpHeaders();
         Path filePath = null;
 
+        header.add("Content-Type", "image/jpeg");
 
-        filePath = Paths.get(finalImagePath);
-        header.add("Content-Type", Files.probeContentType(filePath));
-
-        log.info("probeContentType ={}", Files.probeContentType(filePath));
+        log.info("probeContentType ={}", Files.probeContentType(filePath)); //image/jpeg
         log.info("response entity OK");
 
-        return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+        return new ResponseEntity<Resource>(resource, HttpStatus.OK);
     }
-
 
     @GetMapping("/recognitionJet")
     public void takingMedicineJet(@RequestParam String result) {
@@ -82,6 +90,7 @@ public class ORBApiController {
 
 
 }
+
 
 class UserSaveMemory {
     public String username;

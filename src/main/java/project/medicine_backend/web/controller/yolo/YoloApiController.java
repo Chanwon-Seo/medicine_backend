@@ -79,7 +79,7 @@ public class YoloApiController {
     @PostMapping("/img/add")
     public String imgSave(@ModelAttribute MedicineSaveForm medicineSaveForm, @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        medicineService.join(medicineSaveForm, principalDetails.getUsername());
+        medicineService.join(medicineSaveForm, principalDetails.getUsername(), imageSaveMemory.imagePath);
         return "redirect:/main";
     }
 
