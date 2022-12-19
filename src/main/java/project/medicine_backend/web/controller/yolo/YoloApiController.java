@@ -1,5 +1,10 @@
 package project.medicine_backend.web.controller.yolo;
 
+import project.medicine_backend.config.auth.PrincipalDetails;
+import project.medicine_backend.domain.repository.ImageSaveRepository;
+import project.medicine_backend.domain.service.MedicineService;
+import project.medicine_backend.domain.service.YoloService;
+import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -11,11 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import project.medicine_backend.config.auth.PrincipalDetails;
-import project.medicine_backend.domain.repository.ImageSaveRepository;
-import project.medicine_backend.domain.service.MedicineService;
-import project.medicine_backend.domain.service.YoloService;
-import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 
 import java.io.IOException;
 
@@ -41,6 +41,8 @@ public class YoloApiController {
     @PostMapping("/img/upload")
     public ResponseEntity<Resource> handleFileUpload(@RequestPart("check_img") MultipartFile files, RedirectAttributes redirectAttributes) throws IOException {
         Long imgId = yoloService.join(files);
+
+        log.info("imgID=123123 ={} ", imgId);
 
         Long findImg = yoloService.findImage(imgId);
         imageSaveMemory.image_key = imgId;

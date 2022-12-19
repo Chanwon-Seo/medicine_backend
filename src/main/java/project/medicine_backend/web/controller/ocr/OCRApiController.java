@@ -1,12 +1,12 @@
 package project.medicine_backend.web.controller.ocr;
 
+import project.medicine_backend.web.controller.ocr.form.OcrSaveForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import project.medicine_backend.web.controller.ocr.form.OcrSaveForm;
 
 @Slf4j // 테스트를 위한 로그 어노테이션
 @Controller

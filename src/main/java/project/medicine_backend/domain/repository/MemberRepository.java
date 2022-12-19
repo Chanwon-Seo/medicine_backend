@@ -1,8 +1,8 @@
 package project.medicine_backend.domain.repository;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import project.medicine_backend.domain.entity.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 

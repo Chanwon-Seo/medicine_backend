@@ -1,8 +1,7 @@
 package project.medicine_backend.web.controller.orb.form;
 
-
-import lombok.Data;
 import project.medicine_backend.domain.entity.Medicine;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,4 +16,5 @@ public class ImageResponseForm {
             imageOriginalPath.add(findAllMedicine.get(i).getMedicineImage().getMedicineImagePath());
         }
     }
+
 }

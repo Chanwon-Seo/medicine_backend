@@ -1,13 +1,13 @@
 package project.medicine_backend.domain.service;
 
+import project.medicine_backend.domain.entity.MedicineImage;
+import project.medicine_backend.domain.repository.ImageSaveRepository;
+import project.medicine_backend.domain.repository.YoloRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import project.medicine_backend.domain.entity.MedicineImage;
-import project.medicine_backend.domain.repository.ImageSaveRepository;
-import project.medicine_backend.domain.repository.YoloRepository;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +42,10 @@ public class YoloService {
 
         MedicineImage saveMedicineImage = yoloRepository.save(medicineImage);
 
+        log.info("saveMedicineImage = {} ", saveMedicineImage);
+
         Long saveImageMapId = ImageSaveRepository.save(saveMedicineImage.getId());
+        log.info("saveMedicineImage.getId() ={}", saveMedicineImage.getId());
 
         return saveImageMapId;
     }

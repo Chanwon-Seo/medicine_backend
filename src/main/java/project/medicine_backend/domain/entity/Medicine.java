@@ -1,8 +1,8 @@
 package project.medicine_backend.domain.entity;
 
+import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 import lombok.Getter;
 import lombok.Setter;
-import project.medicine_backend.web.controller.yolo.form.MedicineSaveForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

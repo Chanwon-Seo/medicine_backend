@@ -1,10 +1,10 @@
 package project.medicine_backend.domain.entity;
 
+import project.medicine_backend.web.controller.member.form.MemberForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import project.medicine_backend.web.controller.member.form.MemberForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;

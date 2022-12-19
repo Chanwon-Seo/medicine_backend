@@ -8,9 +8,9 @@ package project.medicine_backend.config.auth;
 
 // Security Session => Authentication => UserDetails(PrincipalDetails)
 
+import project.medicine_backend.domain.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import project.medicine_backend.domain.entity.Member;
 
 import java.util.ArrayList;
 import java.util.Collection;
